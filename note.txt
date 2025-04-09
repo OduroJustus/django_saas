@@ -1,0 +1,3 @@
+Use python decouple to set environment variable
+
+pip install -r requirements.txt

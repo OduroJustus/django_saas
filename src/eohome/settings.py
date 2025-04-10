@@ -86,24 +86,20 @@ WSGI_APPLICATION = 'eohome.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# Database configuration
 CONN_MAX_AGE = config("CONN_MAX_AGE", default=30, cast=int)
-DATABASE_URL = config("DATABASE_URL", default="", cast=str)
 
-if DATABASE_URL.strip():
-    import dj_database_url
-    DATABASES = {
-        "default": dj_database_url.config(
-            conn_max_age=CONN_MAX_AGE,
-            # ssl_require=True,
-            conn_health_checks=True,
-        )
-    }
+# Import the database URL handler
+import dj_database_url
+
+# Configure the database from URL
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL'),
+        conn_max_age=CONN_MAX_AGE,
+        conn_health_checks=True,
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -140,6 +136,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_BASE_DIR = BASE_DIR / "staticfiles"
+STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors"
+
+# source(s) for python manage.py collectstatic
+STATICFILES_DIRS = [
+    STATICFILES_BASE_DIR
+]
+
+# output for python manage.py collectstatic
+# local cdn -> prod cdn
+# STATIC_ROOT = BASE_DIR.parent / "local-cdn"
+STATIC_ROOT = BASE_DIR / "local-cdn"
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

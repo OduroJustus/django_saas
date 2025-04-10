@@ -92,7 +92,18 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+CONN_MAX_AGE = config("CONN_MAX_AGE", default=30, cast=int)
+DATABASE_URL = config("DATABASE_URL", default="", cast=str)
 
+if DATABASE_URL.strip():
+    import dj_database_url
+    DATABASES = {
+        "default": dj_database_url.config(
+            conn_max_age=CONN_MAX_AGE,
+            # ssl_require=True,
+            conn_health_checks=True,
+        )
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

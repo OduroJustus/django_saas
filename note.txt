@@ -1,3 +1,10 @@
 Use python decouple to set environment variable
 
 pip install -r requirements.txt
+
+----------------
+09-04-2025
+2:23:56
+
+
+-----------------

@@ -26,3 +26,14 @@ STATIC_ROOT = BASE_DIR.parent / "local-cdn"
 
 # Then issue below commands
 python3 manage.py collectstatic
+---------- end settings-----------
+
+----------- management commands ------------
+for us to build our own command to do specific things for us, we need to create
+a Django app for such purpose
+
+python3 manage.py startapp commando
+commando/
+management/__init__.py
+
+

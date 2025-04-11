@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my apps
+    'commando',
     'eohome',
     'visits',
 ]
@@ -95,7 +96,7 @@ import dj_database_url
 # Configure the database from URL
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL'),
+        default=config('DATABASE_URL',default=None),
         conn_max_age=CONN_MAX_AGE,
         conn_health_checks=True,
     )
@@ -137,6 +138,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_BASE_DIR = BASE_DIR / "staticfiles"
+STATICFILES_BASE_DIR.mkdir(parents=True, exist_ok=True)
 STATICFILES_VENDOR_DIR = STATICFILES_BASE_DIR / "vendors"
 
 # source(s) for python manage.py collectstatic

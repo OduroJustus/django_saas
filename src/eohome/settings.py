@@ -15,6 +15,15 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Email configurations
+EMAIL_BACKEND= 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config("EMAIL_HOST", cast=str, deault="smtp.gmail.com")
+EMAIL_PORT = config("EMAIL_PORT", cast=str, default="587") # recommended
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", cast=str, default=None)
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", cast=str,default=None)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS",cast=bool,defult=True) # Use email port 587 for TLS
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", cast=bool, defult=False)  # Use email port 465 for SSL
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -54,13 +63,14 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 ROOT_URLCONF = 'eohome.urls'
@@ -150,6 +160,26 @@ STATICFILES_DIRS = [
 # local cdn -> prod cdn
 # STATIC_ROOT = BASE_DIR.parent / "local-cdn"
 STATIC_ROOT = BASE_DIR / "local-cdn"
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+WHITENOISE_SKIP_COMPRESS_EXTENSIONS = (
+    "less",
+    "gif",
+    "jpg",
+    "jpeg",
+    "png",
+    "webp",
+    "svg",
+    "eot",
+    "ttf",
+    "woff",
+    "woff2",
+)
 
 
 
